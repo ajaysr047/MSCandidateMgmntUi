@@ -1,3 +1,11 @@
-<mat-toolbar>
-    <span>Candidate Management</span>
+<mat-toolbar color="primary">
+    <span>{{ taskBarName }}</span>
+    <span *ngFor="let item of navItems">
+        <button mat-button [routerLink]="item.route" [state]="item.data">
+            <mat-icon>{{ item.iconName }}</mat-icon>
+            {{ item.displayName }}
+        </button>
+    </span>
+    <span class="example-spacer"></span>
 </mat-toolbar>
+<router-outlet></router-outlet>

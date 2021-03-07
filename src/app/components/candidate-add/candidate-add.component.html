@@ -1,0 +1,55 @@
+<mat-grid-list cols="4" rowHeight="95%">
+    <mat-grid-tile colspan="1"></mat-grid-tile>
+    <mat-grid-tile colspan="2">
+        <div class="mat-elevation-z8 w-95">
+            <form class="m-30">
+
+                <mat-form-field class="full-width">
+                  <mat-label>Name</mat-label>
+                  <input matInput placeholder="Ryan" >
+                  <mat-icon matSuffix>person</mat-icon>
+                </mat-form-field>
+                    
+                <mat-form-field class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput placeholder="ryan@demo.com" >
+                    <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput placeholder="9898959867" >
+                    <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field class="full-width">
+                    <mat-label>Skills</mat-label>
+                    <mat-chip-list #chipList aria-label="Skillset selection">
+                      <mat-chip *ngFor="let skill of skillChips" [selectable]="selectable"
+                               [removable]="removable" (removed)="remove(skill)">
+                        {{skill.name}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input placeholder="Add skill..."
+                             [matChipInputFor]="chipList"
+                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                             [matChipInputAddOnBlur]="addOnBlur"
+                             (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-icon matSuffix>build</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                  <mat-label>Description</mat-label>
+                  <textarea rows="5" matInput placeholder="Ex To secure a challenging..."></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Feedback</mat-label>
+                    <textarea rows="5" matInput placeholder="Ex The onboarding was..."></textarea>
+                </mat-form-field>
+            </form>    
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1"></mat-grid-tile>
+</mat-grid-list>

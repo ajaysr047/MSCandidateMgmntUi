@@ -11,6 +11,8 @@ import { UserComponent } from './screen/user/user.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchAndEditComponent } from './components/search-and-edit/search-and-edit.component';
+import { CandidateAddComponent } from './components/candidate-add/candidate-add.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     AdminComponent,
     UserComponent,
-    NavbarComponent
+    NavbarComponent,
+    SearchAndEditComponent,
+    CandidateAddComponent
   ],
   imports: [
     BrowserModule,

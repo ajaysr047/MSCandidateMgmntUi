@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { NavItem } from '../../model/nav-item';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,8 +8,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
-  constructor() { }
+  
+  taskBarName: string = 'Candidate Management';
+  navItems: NavItem[] = [
+    {
+      displayName: 'Search',
+      iconName: 'search',
+      route: 'searchAndEdit',
+      data: {
+        getEndpoint: 'candidate/getAllActive',
+        tableHeader: ['candidateId', 'name', 'email', 'phoneNumber', 'location', 'institution'],
+        dataType: 'candidate'
+      }
+    },
+    {
+      displayName: 'Add',
+      iconName: 'add',
+      route: 'addCandidate',
+      data: {
+        addCandidateEndpoint: 'candidate/add',
+        getLocationEndpoint: 'location/getAll',
+        getInstitutionEndpoint: 'institution/getAll'
+      }
+    }
+  ]
+  constructor(private _router: Router) { }
 
   ngOnInit(): void {
   }

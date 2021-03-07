@@ -3,6 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { Router } from '@angular/router';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -23,7 +28,7 @@ export class LoginComponent implements OnInit {
   credentials:object = {};
   
 
-  constructor(private _service:ApiService, private _router:Router) { }
+  constructor(private _service: ApiService, private _router: Router, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -39,6 +44,14 @@ export class LoginComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
+  failedSignInSnackBar(){
+    this._snackBar.open('Unauthorized credentials! Kindly contact admin', 'close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
+  }
+
   signIn(){
     if(this.emailFormControl.valid && this.passwordFormControl.valid){
       this.credentials = {
@@ -51,6 +64,7 @@ export class LoginComponent implements OnInit {
         next: response => {
           console.log(response);
           //Todo store user id
+          sessionStorage.setItem('userData', JSON.stringify(response));
           if(response.role == 'USER'){
               this._router.navigate(['/user']);
           }else{
@@ -58,6 +72,7 @@ export class LoginComponent implements OnInit {
           }
         },
         error: error => {
+          this.failedSignInSnackBar();
           console.log(error);
         }
       });

@@ -28,4 +28,8 @@ export class ApiService {
 
     return this._http.post(this.baseUrl + this.signInUrl, credentials, httpOptions);
   }
+
+  getData(endPoint:string):Observable<any>{
+    return this._http.get(this.baseUrl + endPoint);
+  }
 }

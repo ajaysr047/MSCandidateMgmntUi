@@ -1,3 +1,4 @@
+import { NavItem } from '../../model/nav-item';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,6 +7,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+
+  taskBarName: string = 'Admin Panel';
+  navItems: NavItem[] = [
+    {
+      displayName: 'Search User',
+      iconName: 'saved_search',
+    },
+    {
+      displayName: 'Add User',
+      iconName: 'add'
+    },
+    {
+      displayName: 'Search Candidate',
+      iconName: 'saved_search',
+    },
+    {
+      displayName: 'Add Candidate',
+      iconName: 'add'
+    }
+  ]
 
   constructor() { }
 
