@@ -3,11 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { Router } from '@angular/router';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+import { MatSnackBar} from '@angular/material/snack-bar';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -26,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LoginComponent implements OnInit {
 
   credentials:object = {};
-  
+  private signInUrl = "user/signIn";
 
   constructor(private _service: ApiService, private _router: Router, private _snackBar: MatSnackBar) { }
 
@@ -39,7 +35,8 @@ export class LoginComponent implements OnInit {
   ]);
 
   passwordFormControl = new FormControl('', [
-    Validators.required
+    Validators.required,
+    Validators.minLength(6)
   ]);
 
   matcher = new MyErrorStateMatcher();
@@ -60,7 +57,7 @@ export class LoginComponent implements OnInit {
       }
       console.log('Log in initiated!');
 
-      this._service.signIn(this.credentials).subscribe({
+      this._service.postData(this.credentials, this.signInUrl).subscribe({
         next: response => {
           console.log(response);
           //Todo store user id

@@ -1,3 +1,4 @@
+import { User } from './user';
 import { Location } from 'src/app/model/location';
 import { Institution } from './institution';
 export interface CandidateData{
@@ -10,6 +11,6 @@ export interface CandidateData{
     skillSet: object,
     location: Location,
     institution: Institution,
-    user: object,
+    user: User,
     isActive: boolean
 }

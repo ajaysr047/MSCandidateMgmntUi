@@ -19,14 +19,12 @@ const httpOptions = {
 export class ApiService {
 
   private baseUrl = "/api/";
-  private signInUrl = "user/signIn";
-
 
   constructor(private _http:HttpClient) { }
 
-  signIn(credentials:object):Observable<any>{
+  postData(postData:object, endpoint: string):Observable<any>{
 
-    return this._http.post(this.baseUrl + this.signInUrl, credentials, httpOptions);
+    return this._http.post(this.baseUrl + endpoint, postData, httpOptions);
   }
 
   getData(endPoint:string):Observable<any>{

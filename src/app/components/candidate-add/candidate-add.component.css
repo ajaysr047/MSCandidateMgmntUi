@@ -2,13 +2,20 @@
 .w-95{
     width: 95%;
 }  
-  .full-width {
+.full-width {
     width: 100%;
-  }
-
-  .m-30{
+}
+.half-width{
+  width: 45%;
+}
+.m-30{
       margin: 30px;
-  }
+}
+
+.fl-right{
+  float: right;
+}
+
 .container{
     width: 100%;
     height: 100%;
