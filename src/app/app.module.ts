@@ -14,6 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { SearchAndEditComponent } from './components/search-and-edit/search-and-edit.component';
 import { CandidateAddComponent } from './components/candidate-add/candidate-add.component';
 import { CandidateEditDeleteDialogComponent } from './components/candidate-edit-delete-dialog/candidate-edit-delete-dialog.component';
+import { CandidateTrendComponent } from './components/candidate-trend/candidate-trend.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { CandidateEditDeleteDialogComponent } from './components/candidate-edit-
     NavbarComponent,
     SearchAndEditComponent,
     CandidateAddComponent,
-    CandidateEditDeleteDialogComponent
+    CandidateEditDeleteDialogComponent,
+    CandidateTrendComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,8 @@ import { CandidateEditDeleteDialogComponent } from './components/candidate-edit-
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

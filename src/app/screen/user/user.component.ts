@@ -16,7 +16,7 @@ export class UserComponent implements OnInit {
       iconName: 'search',
       route: 'searchAndEdit',
       data: {
-        getEndpoint: 'candidate/getAllActive',
+        getCandidateEndpoint: 'candidate/getAllActive',
         tableHeader: ['candidateId', 'name', 'email', 'phoneNumber', 'location', 'institution'],
         dataType: 'candidate'
       }
@@ -33,7 +33,13 @@ export class UserComponent implements OnInit {
     },
     {
       displayName: 'Trend',
-      iconName: 'trending_up'
+      iconName: 'trending_up',
+      route: 'candidateTrend',
+      data: {
+        getCandidateEndpoint: 'candidate/getAllActive',
+        getLocationEndpoint: 'location/getAll',
+        getInstitutionEndpoint: 'institution/getAll'
+      }
     }
   ]
   constructor(private _router: Router) { }

@@ -7,7 +7,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
-import { AddCandidateReq } from 'src/app/model/add-candidate-req';
 import { CandidateDialog } from 'src/app/model/candidate-dialog';
 
 
@@ -19,7 +18,7 @@ import { CandidateDialog } from 'src/app/model/candidate-dialog';
 })
 export class SearchAndEditComponent implements OnInit {
 
-  getDataEndpoint: any = '';
+  getCandidateEndpoint: any = '';
   userData: any = {};
   temp: any = '';
   candidateData: CandidateData[] = [];
@@ -52,8 +51,8 @@ export class SearchAndEditComponent implements OnInit {
   constructor(private _service: ApiService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    if( window.history.state.getEndpoint != undefined)
-      localStorage.setItem('getDataURL', window.history.state.getEndpoint);
+    if( window.history.state.getCandidateEndpoint != undefined)
+      localStorage.setItem('getCandidateEndpoint', window.history.state.getCandidateEndpoint);
     if(window.history.state.tableHeader != undefined)
       localStorage.setItem('tableHeader', window.history.state.tableHeader);
     if(window.history.state.dataType != undefined)
@@ -136,8 +135,8 @@ export class SearchAndEditComponent implements OnInit {
   }
 
   getActiveCandidates(){
-    this.getDataEndpoint = localStorage.getItem('getDataURL');
-    this._service.getData(this.getDataEndpoint).subscribe({
+    this.getCandidateEndpoint = localStorage.getItem('getCandidateEndpoint');
+    this._service.getData(this.getCandidateEndpoint).subscribe({
       next: response => {
         console.log(response);
         console.log(this.tableHeader);

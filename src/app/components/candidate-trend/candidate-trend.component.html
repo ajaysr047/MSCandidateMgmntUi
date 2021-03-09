@@ -1,0 +1,5 @@
+<div class="mat-elevation-z8 w-95">
+    <button mat-stroked-button color="primary" class="half-width" (click)="setLocationTrend()" >Location Trend</button>
+    <button mat-stroked-button color="primary" class="half-width fl-right" (click)="setInstitutionTrend()">Institution Trend</button>
+    <app-pie-chart [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData"></app-pie-chart>
+</div>

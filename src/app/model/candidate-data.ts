@@ -13,5 +13,5 @@ export interface CandidateData{
     location: Location,
     institution: Institution,
     user: User,
-    isActive: boolean
+    active: boolean
 }
