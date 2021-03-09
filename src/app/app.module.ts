@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchAndEditComponent } from './components/search-and-edit/search-and-edit.component';
 import { CandidateAddComponent } from './components/candidate-add/candidate-add.component';
+import { CandidateEditDeleteDialogComponent } from './components/candidate-edit-delete-dialog/candidate-edit-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CandidateAddComponent } from './components/candidate-add/candidate-add.
     UserComponent,
     NavbarComponent,
     SearchAndEditComponent,
-    CandidateAddComponent
+    CandidateAddComponent,
+    CandidateEditDeleteDialogComponent
   ],
   imports: [
     BrowserModule,

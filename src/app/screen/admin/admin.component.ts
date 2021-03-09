@@ -12,7 +12,7 @@ export class AdminComponent implements OnInit {
   navItems: NavItem[] = [
     {
       displayName: 'Search User',
-      iconName: 'saved_search',
+      iconName: 'search',
     },
     {
       displayName: 'Add User',
@@ -20,11 +20,15 @@ export class AdminComponent implements OnInit {
     },
     {
       displayName: 'Search Candidate',
-      iconName: 'saved_search',
+      iconName: 'search',
     },
     {
       displayName: 'Add Candidate',
       iconName: 'add'
+    },
+    {
+      displayName: 'Candidate Trend',
+      iconName: 'trending_up'
     }
   ]
 

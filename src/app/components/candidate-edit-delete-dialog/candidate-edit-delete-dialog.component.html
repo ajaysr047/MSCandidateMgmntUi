@@ -1,0 +1,80 @@
+<!-- <div class="mat-elevation-z8 w-95"> -->
+    <form class="m-30"  [formGroup] ="candidateForm">
+        <button mat-raised-button color="warn" *ngIf="isCloseButtonHidden" (click)="closeDialog()" class="m-10 fl-right" >X</button>
+        <mat-form-field class="full-width">
+          <mat-label>Name</mat-label>
+          <input required matInput placeholder="Ryan"  formControlName="name">
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="candidateForm.get('name')!.hasError('minlength')">Minimum 3 characters!</mat-error>
+          <mat-error *ngIf="candidateForm.get('name')!.hasError('maxlength')">Maximum 20 characters allowed</mat-error>
+          <mat-error *ngIf="candidateForm.get('name')!.hasError('required')">Name cannot be empty!</mat-error>
+          <mat-error *ngIf="candidateForm.get('name')!.hasError('pattern')">Name can contain alphabets only!</mat-error>
+        </mat-form-field>
+            
+        <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input required type="email" matInput formControlName="email" placeholder="ryan@demo.com" >
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="candidateForm.hasError('email', 'email')">Enter a well formed email!</mat-error>
+            <mat-error *ngIf="candidateForm.get('email')!.hasError('required')">Email cannot be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Phone Number</mat-label>
+            <input required matInput placeholder="9898959867" formControlName="phoneNumber">
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-error *ngIf="candidateForm.get('phoneNumber')!.hasError('required')">Phone number cannot be empty!</mat-error>
+            <mat-error *ngIf="candidateForm.get('phoneNumber')!.hasError('pattern')">Only 10 digits are allowed!</mat-error>
+        </mat-form-field>
+        
+        <mat-form-field class="full-width">
+            <mat-label>Skills</mat-label>
+            <mat-chip-list #chipList aria-label="Skillset selection" formControlName="skills">
+              <mat-chip *ngFor="let skill of skillChips" [selectable]="selectable"
+                       [removable]="removable" (removed)="remove(skill)">
+                {{skill.name}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input  placeholder="Add skill..."
+                     [matChipInputFor]="chipList"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [matChipInputAddOnBlur]="addOnBlur"
+                     (matChipInputTokenEnd)="add($event)" >
+                     
+            </mat-chip-list>
+            <mat-hint>Comma separated values</mat-hint>
+            <mat-error *ngIf="candidateForm.get('skills')!.hasError('customSkillSetValidator')">Minimum one skill has to be added!</mat-error>
+            <mat-icon matSuffix>build</mat-icon>
+            
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Institution</mat-label>
+            <input required matInput placeholder="Ryan"  formControlName="institution">
+            <mat-icon matSuffix>apartment</mat-icon>
+          </mat-form-field>
+          
+          <mat-form-field class="full-width">
+            <mat-label>Joining Location</mat-label>
+            <input required matInput placeholder="Ryan"  formControlName="location">
+            <mat-icon matSuffix>location_on </mat-icon>
+          </mat-form-field>
+            
+        <mat-form-field class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea rows="5" matInput placeholder="Ex To secure a challenging..." formControlName="description"></textarea>
+          <mat-error *ngIf="candidateForm.get('description')!.hasError('minlength')">Must be atleast 20 characters!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Feedback</mat-label>
+            <textarea rows="5" matInput placeholder="Ex The onboarding was..." formControlName="feedback"></textarea>
+            <mat-error *ngIf="candidateForm.get('feedback')!.hasError('minlength')">Must be atleast 20 characters!</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" *ngIf="isEditButtonHidden" (click)="editCandidate()" class="w-25-m-5" >Edit</button>
+        <button mat-raised-button color="primary" *ngIf="isUpdateButtonHidden" (click)="updateCandidate()" class="w-25-m-5" >Update</button>
+        <button mat-raised-button color="primary" *ngIf="isCancelButtonHidden" (click)="cancelEdit()" class="w-25-m-5" >Cancel</button>
+        <button mat-raised-button color="primary" *ngIf="isDeleteButtonHidden" (click)="deleteCandidate()" class="w-25-m-5" >Delete</button>
+    </form>    
+<!-- </div> -->

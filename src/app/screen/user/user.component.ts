@@ -30,6 +30,10 @@ export class UserComponent implements OnInit {
         getLocationEndpoint: 'location/getAll',
         getInstitutionEndpoint: 'institution/getAll'
       }
+    },
+    {
+      displayName: 'Trend',
+      iconName: 'trending_up'
     }
   ]
   constructor(private _router: Router) { }

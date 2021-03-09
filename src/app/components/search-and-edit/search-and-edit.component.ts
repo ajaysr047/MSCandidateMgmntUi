@@ -1,3 +1,4 @@
+import { CandidateEditDeleteDialogComponent } from './../candidate-edit-delete-dialog/candidate-edit-delete-dialog.component';
 import { CandidateTableData } from './../../model/candidate-table-data';
 import { CandidateData } from '../../model/candidate-data';
 import { ApiService } from './../../services/api.service';
@@ -5,6 +6,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
+import { AddCandidateReq } from 'src/app/model/add-candidate-req';
+import { CandidateDialog } from 'src/app/model/candidate-dialog';
+
+
 
 @Component({
   selector: 'app-search-and-edit',
@@ -22,11 +28,28 @@ export class SearchAndEditComponent implements OnInit {
   candidateTableData: CandidateTableData[] = [];
   tableRowToolTip: string = 'Click for more info!';
   dataSource: any;
+  candidateDialogData: CandidateDialog = {
+    name: 'nil',
+    candidateId: -1,
+    email: 'nil',
+    phoneNumber: 'nil',
+    description: 'nil',
+    feedback: 'nil',
+    skillSet: [],
+    joiningLocation: 'nil',
+    institution: 'nil',
+  }
+  skillSetStringArray: string[] = [];
+
+
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private _service: ApiService) { }
+  
+
+  constructor(private _service: ApiService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     if( window.history.state.getEndpoint != undefined)
@@ -56,7 +79,35 @@ export class SearchAndEditComponent implements OnInit {
     }
   }
 
-  onTableRowClick(row:any){
+  onTableRowClick(row:CandidateTableData){
+
+    
+    this.candidateData.forEach((candidate) => {
+      if(candidate.candidateId == row.candidateId){
+        this.skillSetStringArray = [];
+        candidate.skillSet.forEach((skill) => {
+          this.skillSetStringArray.push(skill.skillName);
+        })
+        this.candidateDialogData = {
+          name: candidate.name,
+          candidateId: candidate.candidateId,
+          email: candidate.email,
+          phoneNumber: candidate.phoneNumber,
+          description: candidate.description,
+          feedback: candidate.feedback,
+          skillSet: this.skillSetStringArray,
+          joiningLocation: candidate.location.name,
+          institution: candidate.institution.name,
+        }
+      }
+    })
+
+    if(this.tableDataType == 'candidate'){
+      const dialogRef = this.dialog.open(CandidateEditDeleteDialogComponent, {
+        data: this.candidateDialogData
+      });
+      
+    }
     console.log(row);
   }
 
@@ -107,3 +158,4 @@ export class SearchAndEditComponent implements OnInit {
   }
 
 }
+

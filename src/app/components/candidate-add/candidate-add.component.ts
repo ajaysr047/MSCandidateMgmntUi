@@ -1,6 +1,5 @@
 import { AddCandidateReq } from './../../model/add-candidate-req';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CandidateData } from './../../model/candidate-data';
 import { ApiService } from './../../services/api.service';
 import { Component, OnInit } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -80,13 +79,6 @@ export class CandidateAddComponent implements OnInit {
     feedback: new FormControl('', [Validators.minLength(20)])
   });
 
-
-  checkSkillChip(){
-    console.log(this.skillChips.length);
-    if(this.skillChips.length > 0)
-      return true;
-    return false;
-  }
 
   getInstitutionAndLocationData(){
     this.getInstitutionEndpoint = localStorage.getItem('getInstitutionURL');

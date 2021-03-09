@@ -1,3 +1,4 @@
+import { UpdateCandidate } from './../model/update-candidate';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -29,5 +30,13 @@ export class ApiService {
 
   getData(endPoint:string):Observable<any>{
     return this._http.get(this.baseUrl + endPoint);
+  }
+
+  deleteData(endPoint: string):Observable<any>{
+    return this._http.delete(this.baseUrl + endPoint);
+  }
+  
+  putData(endPoint: string, putData: UpdateCandidate):Observable<any>{
+    return this._http.put(this.baseUrl + endPoint, putData);
   }
 }
