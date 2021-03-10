@@ -8,4 +8,5 @@ export interface CandidateDialog {
     skillSet: string[],
     joiningLocation: string,
     institution: string,
+    status?: string
 }

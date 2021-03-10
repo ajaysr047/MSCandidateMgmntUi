@@ -1,0 +1,40 @@
+<mat-grid-list cols="3" rowHeight="20vh" >
+    <mat-grid-tile colspan="1"></mat-grid-tile>
+    <mat-grid-tile colspan="1">
+
+    <div class="mat-elevation-z8 w-95">
+        <form class="m-0-p-10" [formGroup]="locationForm">
+        <mat-form-field class="full-width">
+            <mat-label>Location</mat-label>
+            <input required matInput placeholder="Ryan"  formControlName="locationName">
+            <mat-icon matSuffix>location_on</mat-icon>
+            <mat-error *ngIf="locationForm.get('locationName')!.hasError('minlength')">Minimum 3 characters!</mat-error>
+            <mat-error *ngIf="locationForm.get('locationName')!.hasError('maxlength')">Maximum 20 characters allowed</mat-error>
+            <mat-error *ngIf="locationForm.get('locationName')!.hasError('required')">Location cannot be empty!</mat-error>
+            <mat-error *ngIf="locationForm.get('locationName')!.hasError('pattern')">Location can contain alphabets only!</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" class="full-width" (click)="addLocation()">Add Location</button>
+        </form>
+    </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1"></mat-grid-tile>
+</mat-grid-list>
+<div class="mat-elevation-z8 w-95 m-auto">
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event)">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" matSort>
+    
+        <ng-container [matColumnDef]="header" *ngFor="let header of tableHeader">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ header | uppercase }} </th>
+            <td mat-cell *matCellDef="let element"> {{ element[header] }} </td>
+        </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="tableHeader"></tr>
+    <tr mat-row class="element-row" *matRowDef="let row; columns: tableHeader;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

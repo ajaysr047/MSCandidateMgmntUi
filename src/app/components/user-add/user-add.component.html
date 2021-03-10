@@ -1,0 +1,51 @@
+<mat-grid-list cols="4" rowHeight="95%">
+    <mat-grid-tile colspan="1"></mat-grid-tile>
+    <mat-grid-tile colspan="2">
+        <div class="mat-elevation-z8 w-95">
+            <form class="m-30"  [formGroup] ="userForm">
+
+                <mat-form-field class="full-width">
+                  <mat-label>Name</mat-label>
+                  <input required matInput placeholder="Ryan" formControlName="name">
+                  <mat-icon matSuffix>person</mat-icon>
+                  <mat-error *ngIf="userForm.get('name')!.hasError('minlength')">Minimum 3 characters!</mat-error>
+                  <mat-error *ngIf="userForm.get('name')!.hasError('maxlength')">Maximum 20 characters allowed</mat-error>
+                  <mat-error *ngIf="userForm.get('name')!.hasError('required')">Name cannot be empty!</mat-error>
+                  <mat-error *ngIf="userForm.get('name')!.hasError('pattern')">Name can contain alphabets only!</mat-error>
+                </mat-form-field>
+                    
+                <mat-form-field class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input required type="email" matInput formControlName="email" placeholder="ryan@demo.com" >
+                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-error *ngIf="userForm.hasError('email', 'email')">Enter a well formed email!</mat-error>
+                    <mat-error *ngIf="userForm.get('email')!.hasError('required')">Email cannot be empty!</mat-error>
+                </mat-form-field>
+
+
+                <mat-form-field class="full-width">
+                    <mat-label>Default Password</mat-label>
+                    <input required matInput formControlName="password">
+                    <mat-icon matSuffix>password</mat-icon>
+                    <mat-hint>Minimum 8 characters</mat-hint>
+                    <mat-error *ngIf="userForm.get('password')!.hasError('minlength')">Minimum 8 characters!</mat-error>
+                    <mat-error *ngIf="userForm.get('password')!.hasError('required')">Password cannot be empty!</mat-error>
+                    <mat-error *ngIf="userForm.get('password')!.hasError('maxlength')">Maximum 20 characters!</mat-error>
+                </mat-form-field>
+
+                <mat-form-field  class="full-width">
+                    <mat-label >Role</mat-label>
+                    <mat-select formControlName="role">
+                      <mat-option *ngFor="let role of roles" [value]="role">
+                        {{ role }}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+
+                <button mat-raised-button color="primary" class="full-width" (click)="addUser()">Add User</button>
+            </form>    
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1"></mat-grid-tile>
+</mat-grid-list>

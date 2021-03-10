@@ -16,6 +16,13 @@
 .m-30{
       margin: 30px;
 }
+.mtp-20{
+  margin-top: 20px;
+}
+
+.m-20{
+  margin: 20px;
+}
 
 .m-10{
   margin: 10px;
@@ -32,4 +39,16 @@
 .m-0-p-10{
   margin: 0;
   padding: 10px;
+}
+.table{
+  width: 100%;
+}
+.element-row:hover {
+  background: #7b1fa2;
+}
+table {
+  width: 100%;
+}
+.m-auto{
+  margin: auto;
 }

@@ -1,13 +1,15 @@
 import { CandidateEditDeleteDialogComponent } from './../candidate-edit-delete-dialog/candidate-edit-delete-dialog.component';
 import { CandidateTableData } from './../../model/candidate-table-data';
 import { CandidateData } from '../../model/candidate-data';
-import { ApiService } from './../../services/api.service';
+import { ApiService } from 'src/app/services/apiService/api.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
-import {MatDialog} from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import { CandidateDialog } from 'src/app/model/candidate-dialog';
+import { User } from 'src/app/model/user';
+import { Overlay } from '@angular/cdk/overlay';
 
 
 
@@ -19,8 +21,10 @@ import { CandidateDialog } from 'src/app/model/candidate-dialog';
 export class SearchAndEditComponent implements OnInit {
 
   getCandidateEndpoint: any = '';
-  userData: any = {};
+  getUserEndpoint: any = '';
   temp: any = '';
+  userRole: any = '';
+  userTableData: User[] = [];
   candidateData: CandidateData[] = [];
   tableHeader: string[] = [];
   tableDataType: string = '';
@@ -39,6 +43,7 @@ export class SearchAndEditComponent implements OnInit {
     institution: 'nil',
   }
   skillSetStringArray: string[] = [];
+  isTooltipHidden: boolean = false;
 
 
 
@@ -48,25 +53,40 @@ export class SearchAndEditComponent implements OnInit {
 
   
 
-  constructor(private _service: ApiService, public dialog: MatDialog) { }
+  constructor(private _service: ApiService, public dialog: MatDialog, private overlay: Overlay) { }
 
   ngOnInit(): void {
+
     if( window.history.state.getCandidateEndpoint != undefined)
       localStorage.setItem('getCandidateEndpoint', window.history.state.getCandidateEndpoint);
     if(window.history.state.tableHeader != undefined)
       localStorage.setItem('tableHeader', window.history.state.tableHeader);
     if(window.history.state.dataType != undefined)
       localStorage.setItem('dataType', window.history.state.dataType);
+    if( window.history.state.getUserEndpoint != undefined)
+      localStorage.setItem('getUserEndpoint', window.history.state.getUserEndpoint);
+    if( window.history.state.userRole != undefined)
+      localStorage.setItem('userRole', window.history.state.userRole);
     
     console.log(window.history.state);
 
-    this.temp = sessionStorage.getItem('userData');
-    this.userData = JSON.parse(this.temp);
+    // this.temp = sessionStorage.getItem('userData');
+    // this.userData = JSON.parse(this.temp);
     this.temp = localStorage.getItem('tableHeader');
     this.tableHeader = this.temp.split(',')
     this.temp = localStorage.getItem('dataType');
     this.tableDataType = this.temp;
-    this.getActiveCandidates();
+    this.temp = localStorage.getItem('userRole');
+    this.userRole = this.temp;
+    if(this.tableDataType === 'candidate')
+      this.getActiveCandidates();
+    else{
+      this.isTooltipHidden = true;
+      this.getAllUsers();
+    }
+
+    console.log(this.tableDataType);
+      
   }
 
   applyFilter(event: Event) {
@@ -81,57 +101,100 @@ export class SearchAndEditComponent implements OnInit {
   onTableRowClick(row:CandidateTableData){
 
     
-    this.candidateData.forEach((candidate) => {
-      if(candidate.candidateId == row.candidateId){
-        this.skillSetStringArray = [];
-        candidate.skillSet.forEach((skill) => {
-          this.skillSetStringArray.push(skill.skillName);
-        })
-        this.candidateDialogData = {
-          name: candidate.name,
-          candidateId: candidate.candidateId,
-          email: candidate.email,
-          phoneNumber: candidate.phoneNumber,
-          description: candidate.description,
-          feedback: candidate.feedback,
-          skillSet: this.skillSetStringArray,
-          joiningLocation: candidate.location.name,
-          institution: candidate.institution.name,
-        }
-      }
-    })
-
+    
     if(this.tableDataType == 'candidate'){
+
+      this.candidateData.forEach((candidate) => {
+        if(candidate.candidateId == row.candidateId){
+          this.skillSetStringArray = [];
+          candidate.skillSet.forEach((skill) => {
+            this.skillSetStringArray.push(skill.skillName);
+          })
+          if(this.userRole === 'ADMIN'){
+            this.candidateDialogData = {
+              name: candidate.name,
+              candidateId: candidate.candidateId,
+              email: candidate.email,
+              phoneNumber: candidate.phoneNumber,
+              description: candidate.description,
+              feedback: candidate.feedback,
+              skillSet: this.skillSetStringArray,
+              joiningLocation: candidate.location.name,
+              institution: candidate.institution.name,
+              status: candidate.active ? 'Active' : 'Inactive'
+            }
+          }
+          else{
+            this.candidateDialogData = {
+              name: candidate.name,
+              candidateId: candidate.candidateId,
+              email: candidate.email,
+              phoneNumber: candidate.phoneNumber,
+              description: candidate.description,
+              feedback: candidate.feedback,
+              skillSet: this.skillSetStringArray,
+              joiningLocation: candidate.location.name,
+              institution: candidate.institution.name,
+            }
+          }
+        }
+      })
+      const scrollStrategy = this.overlay.scrollStrategies.reposition();
       const dialogRef = this.dialog.open(CandidateEditDeleteDialogComponent, {
-        data: this.candidateDialogData
+        data: this.candidateDialogData,
+        // autoFocus: false,
+        // scrollStrategy
+        maxHeight: '100vh'
       });
-      
+
+      dialogRef.afterClosed().subscribe({
+        next: () => {
+
+          window.location.reload();
+        },
+        error: error => {
+          console.log(error);
+        }
+      });
     }
     console.log(row);
   }
 
-  setCandidateTableData(){
+  createCandidateTableData(){
     // console.log(this.CandidateData);
     this.candidateData.forEach(candidate => {
       console.log(candidate);
-      this.candidateTableData.push({
-        candidateId: candidate.candidateId,
-        name: candidate.name,
-        phoneNumber: candidate.phoneNumber,
-        email: candidate.email,
-        location: candidate.location.name,
-        institution: candidate.institution.name
-      })
+      if(this.userRole === 'ADMIN'){
+
+        this.candidateTableData.push({
+          candidateId: candidate.candidateId,
+          name: candidate.name,
+          phoneNumber: candidate.phoneNumber,
+          email: candidate.email,
+          location: candidate.location.name,
+          institution: candidate.institution.name,
+          status: candidate.active ? 'Active' : 'Inactive'
+        })
+      }else{
+        this.candidateTableData.push({
+          candidateId: candidate.candidateId,
+          name: candidate.name,
+          phoneNumber: candidate.phoneNumber,
+          email: candidate.email,
+          location: candidate.location.name,
+          institution: candidate.institution.name
+        })
+      }
     });
     console.log(this.candidateTableData);
     // this.dataSource = this.candidateTableData;
+    this.setCandidateTableData();
+  }
+
+  setCandidateTableData(){
     this.dataSource = new MatTableDataSource<CandidateTableData>(this.candidateTableData);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-
-  extractUserHeaders(){
-    
   }
 
   getActiveCandidates(){
@@ -140,21 +203,39 @@ export class SearchAndEditComponent implements OnInit {
       next: response => {
         console.log(response);
         console.log(this.tableHeader);
-        if(this.tableDataType == 'candidate'){
-          this.candidateData = response.candidateList;
-
-          this.setCandidateTableData();
-        }else{
-          this.extractUserHeaders();
-        }
+        
+        this.candidateData = response.candidateList;
+        this.createCandidateTableData();
       },
-
       error: error => {
         console.log(error);
       }
-      
     });
   }
+
+
+  getAllUsers(){
+    this.getUserEndpoint = localStorage.getItem('getUserEndpoint');
+    this._service.getData(this.getUserEndpoint).subscribe({
+      next: response => {
+        console.log(response);
+        console.log(this.tableHeader);
+        this.userTableData = response.userList;
+        console.log(this.userTableData);
+        this.setUserTableData();
+      },
+      error: error => {
+        console.log(error);
+      }
+    });
+  }
+
+  setUserTableData(){
+    this.dataSource = new MatTableDataSource<User>(this.userTableData);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
 
 }
 

@@ -18,7 +18,8 @@ export class UserComponent implements OnInit {
       data: {
         getCandidateEndpoint: 'candidate/getAllActive',
         tableHeader: ['candidateId', 'name', 'email', 'phoneNumber', 'location', 'institution'],
-        dataType: 'candidate'
+        dataType: 'candidate',
+        userRole: 'USER'
       }
     },
     {

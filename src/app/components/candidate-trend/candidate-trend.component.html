@@ -1,5 +1,7 @@
 <div class="mat-elevation-z8 w-95">
-    <button mat-stroked-button color="primary" class="half-width" (click)="setLocationTrend()" >Location Trend</button>
-    <button mat-stroked-button color="primary" class="half-width fl-right" (click)="setInstitutionTrend()">Institution Trend</button>
-    <app-pie-chart [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData"></app-pie-chart>
+    <button mat-stroked-button color="white" class="half-width" (click)="setLocationTrend()" >Joining Location Trend</button>
+    <button mat-stroked-button color="white" class="half-width fl-right" (click)="setInstitutionTrend()">Institution Trend</button>
+    <div class="wh-80">
+        <app-pie-chart [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData"></app-pie-chart>
+    </div>
 </div>

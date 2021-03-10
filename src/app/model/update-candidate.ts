@@ -5,4 +5,5 @@ export interface UpdateCandidate {
     description: string,
     feedback: string,
     skillSet: string[];
+    isActive?: boolean
 }

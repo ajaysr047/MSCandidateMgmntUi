@@ -1,4 +1,4 @@
-import { ApiService } from '../../services/api.service';
+import { ApiService } from 'src/app/services/apiService/api.service';
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit {
           console.log(response);
           //Todo store user id
           sessionStorage.setItem('userData', JSON.stringify(response));
+          sessionStorage.setItem('isLoggedIn', 'true');
           if(response.role == 'USER'){
               this._router.navigate(['/user']);
           }else{

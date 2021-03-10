@@ -1,7 +1,7 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CandidateData } from './../../model/candidate-data';
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from './../../services/api.service';
+import { ApiService } from 'src/app/services/apiService/api.service';
 import { Institution } from 'src/app/model/institution';
 import { Location } from 'src/app/model/location';
 import { forkJoin } from 'rxjs';
@@ -125,7 +125,6 @@ export class CandidateTrendComponent implements OnInit {
 
         this.candidateData = response[2].candidateList;
         this.preparePieChartData();
-        this.infoSnackBar('Data preparation complete!');
 
         Object.assign(this.pieChartData, this.locationTrendData);
         Object.assign(this.pieChartLabels, this.locationTrendLabel);

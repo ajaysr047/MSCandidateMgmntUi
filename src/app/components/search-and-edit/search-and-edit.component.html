@@ -17,11 +17,11 @@
   
         <ng-container [matColumnDef]="header" *ngFor="let header of tableHeader">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ header | uppercase }} </th>
-            <td mat-cell *matCellDef="let element"> {{ element[header] }} </td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'active': element[header]=='Active', 'inActive': element[header]=='Inactive', 'centre': header=='status' }"> {{ element[header] }} </td>
           </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="tableHeader"></tr>
-      <tr mat-row class="element-row" [matTooltip]="tableRowToolTip" (click)="onTableRowClick(row)"  *matRowDef="let row; columns: tableHeader;"></tr>
+      <tr mat-row class="element-row" [matTooltipDisabled]="isTooltipHidden" [matTooltip]="tableRowToolTip" (click)="onTableRowClick(row)"  *matRowDef="let row; columns: tableHeader;"></tr>
     </table>
   
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

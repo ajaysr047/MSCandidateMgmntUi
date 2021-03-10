@@ -1,6 +1,5 @@
 import { AddCandidateReq } from './../../model/add-candidate-req';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ApiService } from './../../services/api.service';
 import { Component, OnInit } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
@@ -8,6 +7,7 @@ import { Chips } from 'src/app/model/chips';
 import { Institution } from 'src/app/model/institution';
 import { Location } from 'src/app/model/location';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/apiService/api.service';
 
 
 @Component({

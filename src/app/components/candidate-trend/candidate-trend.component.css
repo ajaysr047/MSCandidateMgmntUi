@@ -5,3 +5,10 @@
 .fl-right{
   float: right;
 }
+.wh-80{
+  width: 90%;
+  height: 80%
+}
+.button:hover{
+  background-color: aliceblue;
+}

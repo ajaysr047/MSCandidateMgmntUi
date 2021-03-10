@@ -5,4 +5,5 @@ export interface CandidateTableData {
     email: string,
     location: string,
     institution: string
+    status?: string
 }

@@ -1,4 +1,4 @@
-import { UpdateCandidate } from './../model/update-candidate';
+import { UpdateCandidate } from './../../model/update-candidate';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

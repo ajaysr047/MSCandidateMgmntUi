@@ -12,9 +12,15 @@ export class PieChartComponent implements OnInit {
   // Pie
   public pieChartOptions: ChartOptions = {
     responsive: true,
+    legend: {
+      position: 'left',
+      labels: {
+        fontColor: '#FFF',
+        fontSize: 18
+      }
+    }
   };
-  // public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-  // public pieChartData: SingleDataSet = [300, 500, 100];
+
   @Input() pieChartLabels: Label[] = [];
   @Input() pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'pie';
@@ -22,7 +28,7 @@ export class PieChartComponent implements OnInit {
   public pieChartPlugins = [];
   public pieChartColors = [
     {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)', 'rgb(238, 130, 238)', 'rgb(255, 165, 0)', 'rgb(106, 90, 205)'],
+      backgroundColor: ['#f44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#FFEB3B', '#FFC107', '#FF5722', '#795548', '#9E9E9E', '#607D8B'],
     },
   ];
 

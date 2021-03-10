@@ -1,6 +1,14 @@
-<!-- <div class="mat-elevation-z8 w-95"> -->
-    <form class="m-30"  [formGroup] ="candidateForm">
-        <button mat-raised-button color="warn" *ngIf="isCloseButtonHidden" (click)="closeDialog()" class="m-10 fl-right" >X</button>
+<!-- <div class=""> -->
+    <form class="m-0-p-10"  [formGroup] ="candidateForm">
+     
+        <!-- <button mat-raised-button color="warn" *ngIf="isCloseButtonHidden" (click)="closeDialog()" class="m-10 fl-right" >X</button> -->
+
+        <div class="m-10 fl-right">
+          <button mat-fab color="warn" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
         <mat-form-field class="full-width">
           <mat-label>Name</mat-label>
           <input required matInput placeholder="Ryan"  formControlName="name">
@@ -52,13 +60,22 @@
             <mat-label>Institution</mat-label>
             <input required matInput placeholder="Ryan"  formControlName="institution">
             <mat-icon matSuffix>apartment</mat-icon>
-          </mat-form-field>
+        </mat-form-field>
           
           <mat-form-field class="full-width">
             <mat-label>Joining Location</mat-label>
             <input required matInput placeholder="Ryan"  formControlName="location">
             <mat-icon matSuffix>location_on </mat-icon>
           </mat-form-field>
+
+          <mat-form-field *ngIf="isStatusFieldHidden" class="full-width">
+            <mat-label >Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let status of recordStatus" [value]="status">
+                {{status}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
             
         <mat-form-field class="full-width">
           <mat-label>Description</mat-label>
@@ -72,9 +89,21 @@
             <mat-error *ngIf="candidateForm.get('feedback')!.hasError('minlength')">Must be atleast 20 characters!</mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" *ngIf="isEditButtonHidden" (click)="editCandidate()" class="w-25-m-5" >Edit</button>
-        <button mat-raised-button color="primary" *ngIf="isUpdateButtonHidden" (click)="updateCandidate()" class="w-25-m-5" >Update</button>
-        <button mat-raised-button color="primary" *ngIf="isCancelButtonHidden" (click)="cancelEdit()" class="w-25-m-5" >Cancel</button>
-        <button mat-raised-button color="primary" *ngIf="isDeleteButtonHidden" (click)="deleteCandidate()" class="w-25-m-5" >Delete</button>
+        <button mat-raised-button color="primary" *ngIf="isEditButtonHidden" (click)="editCandidate()" class="half-width">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-raised-button color="primary" *ngIf="isUpdateButtonHidden" (click)="updateCandidate()" class="half-width" >
+          <mat-icon>save_alt</mat-icon>  
+          Update
+        </button>
+        <button mat-raised-button color="primary" *ngIf="isCancelButtonHidden" (click)="cancelEdit()" class="half-width fl-right" >
+          <mat-icon>cancel</mat-icon>  
+          Cancel
+        </button>
+        <button mat-raised-button color="primary" *ngIf="isDeleteButtonHidden" (click)="deleteCandidate()" class="half-width fl-right" >
+          <mat-icon>delete</mat-icon>  
+          Delete
+        </button>
     </form>    
 <!-- </div> -->

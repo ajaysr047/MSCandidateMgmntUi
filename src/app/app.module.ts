@@ -1,3 +1,5 @@
+import { AuthguardService } from './services/authGuard/authguard.service';
+
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -17,6 +19,8 @@ import { CandidateEditDeleteDialogComponent } from './components/candidate-edit-
 import { CandidateTrendComponent } from './components/candidate-trend/candidate-trend.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { ChartsModule } from 'ng2-charts';
+import { UserAddComponent } from './components/user-add/user-add.component';
+import { LocationAddViewComponent } from './components/location-add-view/location-add-view.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,9 @@ import { ChartsModule } from 'ng2-charts';
     CandidateAddComponent,
     CandidateEditDeleteDialogComponent,
     CandidateTrendComponent,
-    PieChartComponent
+    PieChartComponent,
+    UserAddComponent,
+    LocationAddViewComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,7 @@ import { ChartsModule } from 'ng2-charts';
     HttpClientModule,
     ChartsModule
   ],
-  providers: [],
+  providers: [AuthguardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

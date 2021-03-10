@@ -1,5 +1,5 @@
 import { UpdateCandidate } from './../../model/update-candidate';
-import { ApiService } from './../../services/api.service';
+import { ApiService } from 'src/app/services/apiService/api.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -33,8 +33,17 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
   isCancelButtonHidden: boolean = false;
   isCloseButtonHidden: boolean = true;
 
+  isStatusFieldHidden: boolean = false;
+
   selectedInstitutionId: number = 0;
   selectedLocationId: number = 0;
+
+  userRole: any = '';
+
+  recordStatus: string[] = [
+    'Active',
+    'Inactive'
+  ];
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -50,7 +59,12 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
     this.data.skillSet.forEach((skill) => {
       this.skillChips.push({name:  skill});
     })
-    console.log('skill length', this.skillChips.length)
+    this.userRole = localStorage.getItem('userRole');
+    if(this.userRole === 'ADMIN'){
+      this.isStatusFieldHidden = true;
+      this.isDeleteButtonHidden = false;
+    }
+    console.log('skill length', this.skillChips.length);
   }
 
   candidateForm: FormGroup = new FormGroup({
@@ -61,7 +75,8 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
     institution: new FormControl(this.data.institution, [Validators.required]),
     location: new FormControl(this.data.joiningLocation, [Validators.required]),
     description: new FormControl(this.data.description, [Validators.minLength(20)]),
-    feedback: new FormControl(this.data.feedback, [Validators.minLength(20)])
+    feedback: new FormControl(this.data.feedback, [Validators.minLength(20)]),
+    status: new FormControl(this.data.status)
   });
 
   customSkillSetValidator(): ValidatorFn {
@@ -115,6 +130,9 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
     this.candidateForm.get('feedback')?.enable();
     this.candidateForm.get('phoneNumber')?.enable();
     this.candidateForm.get('description')?.enable();
+
+    if(this.userRole === 'ADMIN')
+      this.candidateForm.get('status')?.enable();
   }
 
   cancelEdit(){
@@ -130,7 +148,8 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
     this.candidateForm.disable();
 
     this.isCancelButtonHidden = false;
-    this.isDeleteButtonHidden = true;
+    if(this.userRole != 'ADMIN')
+      this.isDeleteButtonHidden = true;
     this.isEditButtonHidden = true;
     this.isUpdateButtonHidden = false;
     this.isCloseButtonHidden = true;
@@ -138,6 +157,8 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
   }
 
   updateCandidate(){
+    console.log('status:', this.candidateForm.get('status')?.value);
+
     if(this.candidateForm.valid && this.candidateForm.touched){
       let skillSetStringArray: string[] = [];
       this.skillChips.forEach((skill) => {
@@ -150,6 +171,11 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
         feedback: this.candidateForm.get('feedback')?.value,
         skillSet: skillSetStringArray
       };
+
+      if(this.userRole == 'ADMIN')
+        updateCandidate['isActive'] = this.candidateForm.get('status')?.value === 'Active' ? true : false;
+      console.log('update:',updateCandidate['isActive']);
+      console.log(updateCandidate);
       
       this._service.putData('candidate/update', updateCandidate).subscribe({
         next: response => {
@@ -168,7 +194,7 @@ export class CandidateEditDeleteDialogComponent implements OnInit {
       console.log('update!');
       this.closeDialog();
     }else{
-      
+      this.infoSnackBar('Form values not touched!');
       console.log('Invalid!');
     }
   }
