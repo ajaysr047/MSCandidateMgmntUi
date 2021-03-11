@@ -4,6 +4,7 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/form
 import {ErrorStateMatcher} from '@angular/material/core';
 import { Router } from '@angular/router';
 import { MatSnackBar} from '@angular/material/snack-bar';
+import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -23,8 +24,9 @@ export class LoginComponent implements OnInit {
 
   credentials:object = {};
   private signInUrl = "user/signIn";
+  private googleSignInURL = "user/googleSignIn";
 
-  constructor(private _service: ApiService, private _router: Router, private _snackBar: MatSnackBar) { }
+  constructor(private _service: ApiService, private _router: Router, private _snackBar: MatSnackBar, private _authService: SocialAuthService) { }
 
   ngOnInit(): void {
   }
@@ -41,8 +43,8 @@ export class LoginComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  failedSignInSnackBar(){
-    this._snackBar.open('Unauthorized credentials! Kindly contact admin', 'close', {
+  infoSnackBar(message: string){
+    this._snackBar.open(message, 'close', {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'top'
@@ -60,7 +62,7 @@ export class LoginComponent implements OnInit {
       this._service.postData(this.credentials, this.signInUrl).subscribe({
         next: response => {
           console.log(response);
-          //Todo store user id
+    
           sessionStorage.setItem('userData', JSON.stringify(response));
           sessionStorage.setItem('isLoggedIn', 'true');
           if(response.role == 'USER'){
@@ -70,14 +72,49 @@ export class LoginComponent implements OnInit {
           }
         },
         error: error => {
-          this.failedSignInSnackBar();
+          this.infoSnackBar('Unauthorized credentials! Kindly contact admin');
           console.log(error);
         }
       });
 
     }else{
+      this.infoSnackBar('Credentials cannot be empty!!');
       console.log('Input not valid!!');
     }
   }
+
+  googleSignIn(): void{
+    this._authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this._authService.authState.subscribe((user) => {
+      if(user != null){
+        console.log('Google signin initiated!');
+
+        this._service.postData({
+          email: user.email
+        }, this.googleSignInURL).subscribe({
+          next: response => {
+            console.log(response);
+      
+            sessionStorage.setItem('userData', JSON.stringify(response));
+            sessionStorage.setItem('isLoggedIn', 'true');
+            if(response.role == 'USER'){
+                this._router.navigate(['/user']);
+            }else{
+              this._router.navigate(['/admin']);
+            }
+          },
+          error: error => {
+            this.infoSnackBar('Unauthorized credentials! Kindly contact admin');
+            console.log(error);
+          }
+        });
+  
+      }else{
+        this.infoSnackBar('Google login erro, Try local login or contact admin!');
+        console.log('Google User error!');
+      }
+    });
+  }
+  
 
 }

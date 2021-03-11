@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NavItem } from '../../model/nav-item';
 import { Component, OnInit } from '@angular/core';
 
@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
       route: 'searchAndEdit',
       data: {
         getCandidateEndpoint: 'candidate/getAllActive',
-        tableHeader: ['candidateId', 'name', 'email', 'phoneNumber', 'location', 'institution'],
+        tableHeader: ['candidateId', 'name', 'email', 'phoneNumber', 'joiningLocation', 'institution'],
         dataType: 'candidate',
         userRole: 'USER'
       }
@@ -42,8 +42,16 @@ export class UserComponent implements OnInit {
         getInstitutionEndpoint: 'institution/getAll'
       }
     }
+  ];
+
+  features: string[] = [
+    'Add Candidate',
+    'Search Candidate',
+    'Delete Candidate',
+    'Update Candidate data',
+    'View Candidate Trend'
   ]
-  constructor(private _router: Router) { }
+  constructor(public _route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }

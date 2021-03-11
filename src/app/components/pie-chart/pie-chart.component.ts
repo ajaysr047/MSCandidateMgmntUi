@@ -23,7 +23,7 @@ export class PieChartComponent implements OnInit {
 
   @Input() pieChartLabels: Label[] = [];
   @Input() pieChartData: SingleDataSet = [];
-  public pieChartType: ChartType = 'pie';
+  public pieChartType: ChartType = 'doughnut';
   public pieChartLegend = true;
   public pieChartPlugins = [];
   public pieChartColors = [

@@ -1,3 +1,4 @@
+import { InstitutionAddViewComponent } from './components/institution-add-view/institution-add-view.component';
 import { LocationAddViewComponent } from './components/location-add-view/location-add-view.component';
 import { RouteGuard } from './guard/route.guard';
 import { UserAddComponent } from './components/user-add/user-add.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
     // {path: '', pathMatch: 'full', redirectTo: 'searchAndEdit'},
     {path: 'addUser', component: UserAddComponent},
     {path: 'location', component: LocationAddViewComponent},
+    {path: 'institution', component: InstitutionAddViewComponent},
     {path: 'searchAndEditUser', component: SearchAndEditComponent},
     {path: 'searchAndEditCandidate', component: SearchAndEditComponent},
     {path: 'addCandidate', component: CandidateAddComponent},

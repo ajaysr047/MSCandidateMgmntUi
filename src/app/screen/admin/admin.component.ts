@@ -1,5 +1,6 @@
 import { NavItem } from '../../model/nav-item';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -32,7 +33,7 @@ export class AdminComponent implements OnInit {
       route: 'searchAndEditCandidate',
       data: {
         getCandidateEndpoint: 'candidate/getAll',
-        tableHeader: ['candidateId', 'name', 'email', 'phoneNumber', 'location', 'institution', 'status'],
+        tableHeader: ['candidateId', 'name', 'email', 'phoneNumber', 'joiningLocation', 'institution', 'status'],
         dataType: 'candidate',
         userRole: 'ADMIN'
       }      
@@ -64,10 +65,31 @@ export class AdminComponent implements OnInit {
       data: {
         getLocationEndpoint: 'location/getAll'
       }
+    },
+    {
+      displayName: 'Institution',
+      iconName: 'apartment',
+      route: 'institution',
+      data: {
+        getInstitutionEndpoint: 'institution/getAll',
+        getLocationEndpoint: 'location/getAll',
+        addInstitutionEndpoint: 'institution/add'
+      }
     }
+  ];
+
+  features: string[] = [
+    'Add User',
+    'Search Candidate',
+    'Add Candidate',
+    'Toggle Candidate Status',
+    'Update Candidate data',
+    'View Candidate Trend',
+    'Add Location',
+    'Add Institution'
   ]
 
-  constructor() { }
+  constructor(public _route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }

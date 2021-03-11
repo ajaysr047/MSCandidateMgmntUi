@@ -1,3 +1,4 @@
+import { CLIENT_ID } from './constants/authConstant';
 import { AuthguardService } from './services/authGuard/authguard.service';
 
 import { MaterialModule } from './material/material.module';
@@ -21,6 +22,9 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { UserAddComponent } from './components/user-add/user-add.component';
 import { LocationAddViewComponent } from './components/location-add-view/location-add-view.component';
+import { InstitutionAddViewComponent } from './components/institution-add-view/institution-add-view.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,8 @@ import { LocationAddViewComponent } from './components/location-add-view/locatio
     CandidateTrendComponent,
     PieChartComponent,
     UserAddComponent,
-    LocationAddViewComponent
+    LocationAddViewComponent,
+    InstitutionAddViewComponent
   ],
   imports: [
     BrowserModule,
@@ -45,9 +50,26 @@ import { LocationAddViewComponent } from './components/location-add-view/locatio
     ReactiveFormsModule,
     MaterialModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
+    SocialLoginModule
   ],
-  providers: [AuthguardService],
+  providers: [
+    AuthguardService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              CLIENT_ID
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

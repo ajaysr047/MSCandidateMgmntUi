@@ -73,6 +73,10 @@ export class CandidateTrendComponent implements OnInit {
     console.log(this.locationMap);
     console.log(this.institutionMap);
 
+    // this.locationTrendLabel = [...this.locationMap.keys()];
+    // this.locationTrendData = [...this.locationMap.values()];
+    this.locationTrendLabel = [];
+    this.locationTrendData = [];
     this.locationTrendLabel = [...this.locationMap.keys()];
     this.locationTrendData = [...this.locationMap.values()];
 
@@ -88,11 +92,15 @@ export class CandidateTrendComponent implements OnInit {
   }
 
   setLocationTrend(){
+    this.pieChartData = [];
+    this.pieChartLabels = [];
     Object.assign(this.pieChartData, this.locationTrendData);
     Object.assign(this.pieChartLabels, this.locationTrendLabel);
   }
 
   setInstitutionTrend(){
+    this.pieChartData = [];
+    this.pieChartLabels = [];
     Object.assign(this.pieChartData, this.institutionTrendData);
     Object.assign(this.pieChartLabels, this.institutionTrendLabel);
   }

@@ -1,4 +1,7 @@
+import { Location } from "./location";
+
 export interface Institution {
     institutionId: number,
-    name: string
+    name: string,
+    location: Location
 }

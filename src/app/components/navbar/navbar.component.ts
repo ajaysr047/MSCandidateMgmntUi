@@ -1,3 +1,4 @@
+import { SocialAuthService } from 'angularx-social-login';
 import { Router } from '@angular/router';
 import { NavItem } from '../../model/nav-item';
 import { Component, Input, OnInit } from '@angular/core';
@@ -12,7 +13,7 @@ export class NavbarComponent implements OnInit {
   @Input() taskBarName: string = '';
   @Input() navItems: NavItem[] = [];
 
-  constructor(private _router: Router) { }
+  constructor(private _router: Router, private _authService: SocialAuthService) { }
 
   ngOnInit(): void {
   }
@@ -30,7 +31,11 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('getUserEndpoint');
     localStorage.removeItem('dataType');
     localStorage.removeItem('getInstitutionURL');
-
+    localStorage.removeItem('addInstitutionEndpoint');
+    
+    // Google signout
+    this._authService.signOut();
+    
     // Re route to login
     this._router.navigate(['login']);
   }

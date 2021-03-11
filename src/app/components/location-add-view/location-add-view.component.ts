@@ -62,7 +62,7 @@ export class LocationAddViewComponent implements OnInit {
           else
           this.infoSnackBar(error.error);
         }
-      })
+      });
     }else{
       console.log('Invalid!');
     }

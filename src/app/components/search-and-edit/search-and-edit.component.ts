@@ -120,7 +120,7 @@ export class SearchAndEditComponent implements OnInit {
               feedback: candidate.feedback,
               skillSet: this.skillSetStringArray,
               joiningLocation: candidate.location.name,
-              institution: candidate.institution.name,
+              institution: candidate.institution.name + ', ' + candidate.institution.location.name,
               status: candidate.active ? 'Active' : 'Inactive'
             }
           }
@@ -134,12 +134,12 @@ export class SearchAndEditComponent implements OnInit {
               feedback: candidate.feedback,
               skillSet: this.skillSetStringArray,
               joiningLocation: candidate.location.name,
-              institution: candidate.institution.name,
+              institution: candidate.institution.name + ', ' + candidate.institution.location.name,
             }
           }
         }
       })
-      const scrollStrategy = this.overlay.scrollStrategies.reposition();
+      // const scrollStrategy = this.overlay.scrollStrategies.reposition();
       const dialogRef = this.dialog.open(CandidateEditDeleteDialogComponent, {
         data: this.candidateDialogData,
         // autoFocus: false,
@@ -171,8 +171,8 @@ export class SearchAndEditComponent implements OnInit {
           name: candidate.name,
           phoneNumber: candidate.phoneNumber,
           email: candidate.email,
-          location: candidate.location.name,
-          institution: candidate.institution.name,
+          joiningLocation: candidate.location.name,
+          institution: candidate.institution.name + ', ' + candidate.institution.location.name,
           status: candidate.active ? 'Active' : 'Inactive'
         })
       }else{
@@ -181,8 +181,8 @@ export class SearchAndEditComponent implements OnInit {
           name: candidate.name,
           phoneNumber: candidate.phoneNumber,
           email: candidate.email,
-          location: candidate.location.name,
-          institution: candidate.institution.name
+          joiningLocation: candidate.location.name,
+          institution: candidate.institution.name + ', ' + candidate.institution.location.name
         })
       }
     });
