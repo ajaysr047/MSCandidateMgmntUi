@@ -54,7 +54,7 @@
                     <mat-form-field appearance="fill" class="half-width">
                         <mat-label>Institution</mat-label>
                         <mat-select required name="InstitutionDropDown" [(ngModel)]="selectedInstitutionId" formControlName="institution">
-                          <mat-option *ngFor="let institution of institutionData" [value]="institution.institutionId">{{ institution.name }}</mat-option>
+                          <mat-option *ngFor="let institution of institutionData" [value]="institution.institutionId">{{ institution.name + ', ' + institution.location.name }}</mat-option>
                         </mat-select>
                     </mat-form-field>
     
