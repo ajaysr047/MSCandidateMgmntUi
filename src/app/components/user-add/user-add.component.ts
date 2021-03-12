@@ -51,8 +51,6 @@ export class UserAddComponent implements OnInit {
         role: this.userForm.get('role')?.value,
       };
 
-      console.log(userData);
-
       this._service.postData(userData, 'user/add').subscribe({
         next: (response) => {
           this.userForm.reset();

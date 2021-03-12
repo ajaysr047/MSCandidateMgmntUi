@@ -6,19 +6,20 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-
   @Input() taskBarName: string = '';
   @Input() navItems: NavItem[] = [];
 
-  constructor(private _router: Router, private _authService: SocialAuthService) { }
+  constructor(
+    private _router: Router,
+    private _authService: SocialAuthService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  logout(){
+  logout() {
     // Clean up
     sessionStorage.removeItem('userData');
     sessionStorage.removeItem('isLoggedIn');
@@ -32,10 +33,10 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('dataType');
     localStorage.removeItem('getInstitutionURL');
     localStorage.removeItem('addInstitutionEndpoint');
-    
+
     // Google signout
     this._authService.signOut();
-    
+
     // Re route to login
     this._router.navigate(['login']);
   }

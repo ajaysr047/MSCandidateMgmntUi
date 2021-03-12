@@ -11,15 +11,12 @@ import { CandidateDialog } from 'src/app/model/candidate-dialog';
 import { User } from 'src/app/model/user';
 import { Overlay } from '@angular/cdk/overlay';
 
-
-
 @Component({
   selector: 'app-search-and-edit',
   templateUrl: './search-and-edit.component.html',
-  styleUrls: ['./search-and-edit.component.css']
+  styleUrls: ['./search-and-edit.component.css'],
 })
 export class SearchAndEditComponent implements OnInit {
-
   getCandidateEndpoint: any = '';
   getUserEndpoint: any = '';
   temp: any = '';
@@ -41,52 +38,52 @@ export class SearchAndEditComponent implements OnInit {
     skillSet: [],
     joiningLocation: 'nil',
     institution: 'nil',
-  }
+  };
   skillSetStringArray: string[] = [];
   isTooltipHidden: boolean = false;
-
-
-
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  
-
-  constructor(private _service: ApiService, public dialog: MatDialog, private overlay: Overlay) { }
+  constructor(
+    private _service: ApiService,
+    public dialog: MatDialog,
+    private overlay: Overlay
+  ) {}
 
   ngOnInit(): void {
-
-    if( window.history.state.getCandidateEndpoint != undefined)
-      localStorage.setItem('getCandidateEndpoint', window.history.state.getCandidateEndpoint);
-    if(window.history.state.tableHeader != undefined)
+    if (window.history.state.getCandidateEndpoint != undefined)
+      localStorage.setItem(
+        'getCandidateEndpoint',
+        window.history.state.getCandidateEndpoint
+      );
+    if (window.history.state.tableHeader != undefined)
       localStorage.setItem('tableHeader', window.history.state.tableHeader);
-    if(window.history.state.dataType != undefined)
+    if (window.history.state.dataType != undefined)
       localStorage.setItem('dataType', window.history.state.dataType);
-    if( window.history.state.getUserEndpoint != undefined)
-      localStorage.setItem('getUserEndpoint', window.history.state.getUserEndpoint);
-    if( window.history.state.userRole != undefined)
+    if (window.history.state.getUserEndpoint != undefined)
+      localStorage.setItem(
+        'getUserEndpoint',
+        window.history.state.getUserEndpoint
+      );
+    if (window.history.state.userRole != undefined)
       localStorage.setItem('userRole', window.history.state.userRole);
-    
+
     console.log(window.history.state);
 
-    // this.temp = sessionStorage.getItem('userData');
-    // this.userData = JSON.parse(this.temp);
     this.temp = localStorage.getItem('tableHeader');
-    this.tableHeader = this.temp.split(',')
+    this.tableHeader = this.temp.split(',');
     this.temp = localStorage.getItem('dataType');
     this.tableDataType = this.temp;
     this.temp = localStorage.getItem('userRole');
     this.userRole = this.temp;
-    if(this.tableDataType === 'candidate')
-      this.getActiveCandidates();
-    else{
+    if (this.tableDataType === 'candidate') this.getActiveCandidates();
+    else {
       this.isTooltipHidden = true;
       this.getAllUsers();
     }
 
     console.log(this.tableDataType);
-      
   }
 
   applyFilter(event: Event) {
@@ -98,19 +95,15 @@ export class SearchAndEditComponent implements OnInit {
     }
   }
 
-  onTableRowClick(row:CandidateTableData){
-
-    
-    
-    if(this.tableDataType == 'candidate'){
-
+  onTableRowClick(row: CandidateTableData) {
+    if (this.tableDataType == 'candidate') {
       this.candidateData.forEach((candidate) => {
-        if(candidate.candidateId == row.candidateId){
+        if (candidate.candidateId == row.candidateId) {
           this.skillSetStringArray = [];
           candidate.skillSet.forEach((skill) => {
             this.skillSetStringArray.push(skill.skillName);
-          })
-          if(this.userRole === 'ADMIN'){
+          });
+          if (this.userRole === 'ADMIN') {
             this.candidateDialogData = {
               name: candidate.name,
               candidateId: candidate.candidateId,
@@ -120,11 +113,13 @@ export class SearchAndEditComponent implements OnInit {
               feedback: candidate.feedback,
               skillSet: this.skillSetStringArray,
               joiningLocation: candidate.location.name,
-              institution: candidate.institution.name + ', ' + candidate.institution.location.name,
-              status: candidate.active ? 'Active' : 'Inactive'
-            }
-          }
-          else{
+              institution:
+                candidate.institution.name +
+                ', ' +
+                candidate.institution.location.name,
+              status: candidate.active ? 'Active' : 'Inactive',
+            };
+          } else {
             this.candidateDialogData = {
               name: candidate.name,
               candidateId: candidate.candidateId,
@@ -134,108 +129,105 @@ export class SearchAndEditComponent implements OnInit {
               feedback: candidate.feedback,
               skillSet: this.skillSetStringArray,
               joiningLocation: candidate.location.name,
-              institution: candidate.institution.name + ', ' + candidate.institution.location.name,
-            }
+              institution:
+                candidate.institution.name +
+                ', ' +
+                candidate.institution.location.name,
+            };
           }
         }
-      })
-      // const scrollStrategy = this.overlay.scrollStrategies.reposition();
+      });
+
       const dialogRef = this.dialog.open(CandidateEditDeleteDialogComponent, {
         data: this.candidateDialogData,
-        // autoFocus: false,
-        // scrollStrategy
-        maxHeight: '100vh'
+
+        maxHeight: '100vh',
       });
 
       dialogRef.afterClosed().subscribe({
         next: () => {
-
           window.location.reload();
         },
-        error: error => {
+        error: (error) => {
           console.log(error);
-        }
+        },
       });
     }
     console.log(row);
   }
 
-  createCandidateTableData(){
-    // console.log(this.CandidateData);
-    this.candidateData.forEach(candidate => {
-      console.log(candidate);
-      if(this.userRole === 'ADMIN'){
-
+  createCandidateTableData() {
+    this.candidateData.forEach((candidate) => {
+      if (this.userRole === 'ADMIN') {
         this.candidateTableData.push({
           candidateId: candidate.candidateId,
           name: candidate.name,
           phoneNumber: candidate.phoneNumber,
           email: candidate.email,
           joiningLocation: candidate.location.name,
-          institution: candidate.institution.name + ', ' + candidate.institution.location.name,
-          status: candidate.active ? 'Active' : 'Inactive'
-        })
-      }else{
+          institution:
+            candidate.institution.name +
+            ', ' +
+            candidate.institution.location.name,
+          status: candidate.active ? 'Active' : 'Inactive',
+        });
+      } else {
         this.candidateTableData.push({
           candidateId: candidate.candidateId,
           name: candidate.name,
           phoneNumber: candidate.phoneNumber,
           email: candidate.email,
           joiningLocation: candidate.location.name,
-          institution: candidate.institution.name + ', ' + candidate.institution.location.name
-        })
+          institution:
+            candidate.institution.name +
+            ', ' +
+            candidate.institution.location.name,
+        });
       }
     });
     console.log(this.candidateTableData);
-    // this.dataSource = this.candidateTableData;
+
     this.setCandidateTableData();
   }
 
-  setCandidateTableData(){
-    this.dataSource = new MatTableDataSource<CandidateTableData>(this.candidateTableData);
+  setCandidateTableData() {
+    this.dataSource = new MatTableDataSource<CandidateTableData>(
+      this.candidateTableData
+    );
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  getActiveCandidates(){
+  getActiveCandidates() {
     this.getCandidateEndpoint = localStorage.getItem('getCandidateEndpoint');
     this._service.getData(this.getCandidateEndpoint).subscribe({
-      next: response => {
-        console.log(response);
-        console.log(this.tableHeader);
-        
+      next: (response) => {
         this.candidateData = response.candidateList;
         this.createCandidateTableData();
       },
-      error: error => {
+      error: (error) => {
         console.log(error);
-      }
+      },
     });
   }
 
-
-  getAllUsers(){
+  getAllUsers() {
     this.getUserEndpoint = localStorage.getItem('getUserEndpoint');
     this._service.getData(this.getUserEndpoint).subscribe({
-      next: response => {
-        console.log(response);
-        console.log(this.tableHeader);
+      next: (response) => {
         this.userTableData = response.userList;
         console.log(this.userTableData);
         this.setUserTableData();
       },
-      error: error => {
+      error: (error) => {
         console.log(error);
-      }
+      },
     });
   }
 
-  setUserTableData(){
+  setUserTableData() {
     this.dataSource = new MatTableDataSource<User>(this.userTableData);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
-
 }
-
